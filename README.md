@@ -8,7 +8,7 @@ Hands-on vulnerability assessment and penetration testing lab on Metasploitable 
 -  In a VAPT workflow, Nmap acts as the primary tool during the reconnaissance phase to build a
   map of the target's attack surface
 
-# Command Used in This Step
+ Command Used in This Step
 -sudo nmap --script=vuln 192.168.0.113
 <img width="1920" height="950" alt="image" src="https://github.com/user-attachments/assets/7416f651-3bdd-4e8c-ba7b-cafa7645e3d1" />
 # What this command does
@@ -53,7 +53,9 @@ bash
 - msf6 exploit(unix/ftp/vsftpd_234_backdoor) > show options.
 <img width="1920" height="950" alt="Screenshot_2026-10-17_12_01_36" src="https://github.com/user-attachments/assets/d9dc34b9-9081-460d-9ea3-9e6326bc42bf" />
 
+
 Commands Explained:
+
 show options: Displays all the configurable parameters for the selected exploit module and its payload.
 
 - RHOSTS: The remote host parameter where we must specify our target IP address (192.168.0.113).
