@@ -1,14 +1,15 @@
 # Network-VAPT-Metasploitable
 Hands-on vulnerability assessment and penetration testing lab on Metasploitable 2 using Kali Linux and Metasploit.
 
-## Initial Reconnaissance and Vulnerability Scanning
+# Initial Reconnaissance and Vulnerability Scanning
 - Nmap (Network Mapper) is an open-source tool used by security professionals to scan networks,
 - discover active devices, find open ports, and identify running services along with their security
   flaws.
 -  In a VAPT workflow, Nmap acts as the primary tool during the reconnaissance phase to build a
   map of the target's attack surface
 
- Command Used in This Step
+# Command Used in This Step
+
 -sudo nmap --script=vuln 192.168.0.113
 <img width="1920" height="950" alt="image" src="https://github.com/user-attachments/assets/7416f651-3bdd-4e8c-ba7b-cafa7645e3d1" />
 # What this command does
@@ -54,7 +55,7 @@ bash
 <img width="1920" height="950" alt="Screenshot_2026-10-17_12_01_36" src="https://github.com/user-attachments/assets/d9dc34b9-9081-460d-9ea3-9e6326bc42bf" />
 
 
-Commands Explained:
+# Commands Explained:
 
 show options: Displays all the configurable parameters for the selected exploit module and its payload.
 
@@ -75,7 +76,7 @@ bash
 
 <img width="1920" height="950" alt="Screenshot_2026-10-17_12_02_40" src="https://github.com/user-attachments/assets/b6dc6cc8-ac1c-4ecd-b740-6410a6361ded" />
 
-Commands Explained:
+# Commands Explained:
 
 - set RHOSTS 192.168.0.113: Defines the Remote Host (target machine IP address) that we want to exploit.
 
