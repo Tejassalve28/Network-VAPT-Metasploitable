@@ -37,7 +37,7 @@ Hands-on vulnerability assessment and penetration testing lab on Metasploitable 
 <img width="1920" height="950" alt="Screenshot_2026-10-17_12_01_18" src="https://github.com/user-attachments/assets/f10b3e83-e9a8-4f7e-bff0-4313695ce6b1" />
 # Observations & Output:
 # The search query returned two matching modules:   
-- 0 auxiliary/dos/ftp/vsftpd_232 (Denial of Service)
-- 1 exploit/unix/ftp/vsftpd_234_backdoor (VSFTPD 2.3.4 Backdoor Command Execution)
+- 0 auxiliary/dos/ftp/vsftpd_232 (Denial of Service).
+- 1 exploit/unix/ftp/vsftpd_234_backdoor (VSFTPD 2.3.4 Backdoor Command Execution).
 - msf > use 1
   
