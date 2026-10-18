@@ -6,7 +6,7 @@ Hands-on vulnerability assessment and penetration testing lab on Metasploitable 
 - discover active devices, find open ports, and identify running services along with their security
   flaws.
 -  In a VAPT workflow, Nmap acts as the primary tool during the reconnaissance phase to build a
--  map of the target's attack surface
+  map of the target's attack surface
 
 # Command Used in This Step
 -sudo nmap --script=vuln 192.168.0.113
