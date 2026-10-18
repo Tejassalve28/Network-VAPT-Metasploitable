@@ -45,3 +45,19 @@ Hands-on vulnerability assessment and penetration testing lab on Metasploitable 
 
 - msf > use 1
   
+### Step 2: Inspecting Exploit Options
+
+Once the `vsftpd_234_backdoor` module was selected, I inspected the configurable parameters and payload options to ensure everything was properly aligned before launching the attack.
+
+bash
+- msf6 exploit(unix/ftp/vsftpd_234_backdoor) > show options.
+<img width="1920" height="950" alt="Screenshot_2026-10-17_12_01_36" src="https://github.com/user-attachments/assets/d9dc34b9-9081-460d-9ea3-9e6326bc42bf" />
+
+Commands Explained:
+show options: Displays all the configurable parameters for the selected exploit module and its payload.
+
+- RHOSTS: The remote host parameter where we must specify our target IP address (192.168.0.113).
+
+- RPORT: The target port parameter, which is set to 21 by default for the FTP service.
+
+- Payload Settings: The default payload (cmd/linux/http/x86/meterpreter_reverse_tcp) handles the connection back to our attack machine once the backdoor is triggered.
