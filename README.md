@@ -103,13 +103,13 @@ Meterpreter is an advanced, dynamically extensible payload used within the Metas
 
 Exploit Execution & Post-Exploitation Commands:
 
-Triggering the Exploit
+1. Triggering the Exploit
 
 The exploit successfully triggered the hidden backdoor vulnerability on port 21.
 
 Spawned a reverse TCP handler and established an active connection back to our Kali Linux machine (192.168.0.139), resulting in: Meterpreter session 1 opened.
 
-Checking System Information
+2. Checking System Information
 
 - meterpreter > sysinfo
 
@@ -117,4 +117,17 @@ Purpose: Displays details about the target system.
 
 Observation: Confirmed the target is running an Ubuntu 8.04 server environment with an x86 architecture.
 
-Verifying Privileges (getuid):
+3. Verifying Privileges (getuid):
+- meterpreter > getuid
+  
+Purpose: Identifies the current user context of our session.
+
+Observation: Confirmed that we successfully gained root level privileges (highest administrative access on the system).
+
+4. Network Interface Enumeration (ifconfig):
+meterpreter > ifconfig
+
+Purpose: Lists the network configuration and active interfaces of the compromised target.
+
+Observation: Verified the target's internal IP address (192.168.0.113) and loopback interface.
+
