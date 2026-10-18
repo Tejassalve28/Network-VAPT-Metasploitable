@@ -4,7 +4,8 @@ Hands-on vulnerability assessment and penetration testing lab on Metasploitable 
 ## Initial Reconnaissance and Vulnerability Scanning
 - Nmap (Network Mapper) is an open-source tool used by security professionals to scan networks,
 - discover active devices, find open ports, and identify running services along with their security
-- flaws. In a VAPT workflow, Nmap acts as the primary tool during the reconnaissance phase to build a
+  flaws.
+-  In a VAPT workflow, Nmap acts as the primary tool during the reconnaissance phase to build a
 -  map of the target's attack surface
 
 # Command Used in This Step
