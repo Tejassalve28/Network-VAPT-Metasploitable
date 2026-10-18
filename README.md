@@ -13,7 +13,9 @@ Hands-on vulnerability assessment and penetration testing lab on Metasploitable 
 -sudo nmap --script=vuln 192.168.0.113
 
 <img width="1920" height="950" alt="image" src="https://github.com/user-attachments/assets/7416f651-3bdd-4e8c-ba7b-cafa7645e3d1" />
-# What this command does
+
+# What this command does. 
+
 - sudo: Runs the command with administrative privileges, which allows Nmap to craft raw network packets for accurate scanning.
 - nmap: Invokes the scanner tool
 - script=vuln: Triggers Nmap’s built-in Scripting Engine (NSE) vulnerability categories to check the open ports against known security vulnerabilities (CVEs).
