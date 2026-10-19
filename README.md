@@ -99,7 +99,7 @@ bash
 
   <img width="1920" height="950" alt="Screenshot_2026-10-17_12_03_49" src="https://github.com/user-attachments/assets/dcd86fce-bce0-4cdf-89be-500cf8d0cd56" />
 
-What is Meterpreter. 
+# What is Meterpreter. 
 
 Meterpreter is an advanced, dynamically extensible payload used within the Metasploit Framework. Unlike a standard basic command shell, Meterpreter runs completely in memory (in-the-ram) on the target system, making it harder to detect by traditional security solutions. It provides a feature-rich environment to interact with the compromised system, execute commands, gather system information, and extract files seamlessly.
 
@@ -150,4 +150,23 @@ bash
 - Channel 1 created.
 
 <img width="1920" height="950" alt="Screenshot_2026-10-17_12_05_02" src="https://github.com/user-attachments/assets/869c3485-6803-4378-a3d8-8ae28d500b61" />
+cat /etc/shadow
+```[cite: 7]
 
+* **What it does:** The `/etc/shadow` file on Linux systems stores secure password hashes for all local user accounts.
+* **Observations:** 
+  * Successfully extracted password hashes for system users (such as `root`, `msfadmin`, `postgres`, `ftp`, etc.)[cite: 7].
+  * These hashes can potentially be used in offline password cracking attacks (using tools like John the Ripper or Hashcat) to test password strength.
+
+---
+
+#### 2. Enumerating User Accounts (`/etc/passwd`)
+Next, I checked the system's user account database to understand the user structure and active shells configured on the machine[cite: 8].
+
+```bash
+cat /etc/passwd
+```[cite: 8]
+
+* **What it does:** The `/etc/passwd` file contains public account information, listing all valid usernames, user IDs (UID), group IDs (GID), home directories, and their assigned default login shells[cite: 8].
+* **Observations:**
+  * Identified active users and their respective home paths (e.g., `/home/msfadmin`, `/home/user`) along with system daemons that have restricted or no login access (`/bin/false` or `/sbin/nologin`)[cite: 8].
