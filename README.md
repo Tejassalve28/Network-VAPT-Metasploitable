@@ -133,3 +133,21 @@ Purpose: Lists the network configuration and active interfaces of the compromise
 
 Observation: Verified the target's internal IP address (192.168.0.113) and loopback interface.
 
+
+
+
+### Step 5: Post-Exploitation & Dumping Sensitive System Files
+
+After obtaining root-level access via the `vsftpd` backdoor, I performed post-exploitation activities to extract sensitive authentication and user configuration files from the target system.
+
+1. Dumping Password Hashes (/etc/shadow)
+By dropping into an interactive shell session from Meterpreter, I accessed and dumped the contents of the shadow file to view system user hashes.
+
+bash 
+
+- meterpreter > shell
+- Process 4730 created.
+- Channel 1 created.
+
+<img width="1920" height="950" alt="Screenshot_2026-10-17_12_05_02" src="https://github.com/user-attachments/assets/869c3485-6803-4378-a3d8-8ae28d500b61" />
+
